@@ -10,7 +10,6 @@ require('./index.css').toString();
  * @typedef {object} SimpleImageData
  * @description Tool's input and output data format
  * @property {string} url — image URL
- * @property {string} caption — image caption
  * @property {boolean} withBorder - should image be rendered with border
  * @property {boolean} withBackground - should image be rendered with background
  * @property {boolean} stretched - should image be stretched to full width of container
@@ -53,8 +52,7 @@ class SimpleImage {
        * Tool's classes
        */
       wrapper: 'cdx-simple-image',
-      imageHolder: 'cdx-simple-image__picture',
-      caption: 'cdx-simple-image__caption'
+      imageHolder: 'cdx-simple-image__picture'
     };
 
     /**
@@ -63,8 +61,7 @@ class SimpleImage {
     this.nodes = {
       wrapper: null,
       imageHolder: null,
-      image: null,
-      caption: null
+      image: null
     };
 
     /**
@@ -72,7 +69,6 @@ class SimpleImage {
      */
     this.data = {
       url: data.url || '',
-      caption: data.caption || '',
       withBorder: data.withBorder !== undefined ? data.withBorder : false,
       withBackground: data.withBackground !== undefined ? data.withBackground : false,
       stretched: data.stretched !== undefined ? data.stretched : false,
@@ -108,13 +104,7 @@ class SimpleImage {
     let wrapper = this._make('div', [this.CSS.baseClass, this.CSS.wrapper]),
       loader = this._make('div', this.CSS.loading),
       imageHolder = this._make('div', this.CSS.imageHolder),
-      image = this._make('img'),
-      caption = this._make('div', [this.CSS.input, this.CSS.caption], {
-        contentEditable: 'true',
-        innerHTML: this.data.caption || ''
-      });
-
-    caption.dataset.placeholder = 'Enter a caption';
+      image = this._make('img');
 
     wrapper.appendChild(loader);
 
@@ -126,7 +116,6 @@ class SimpleImage {
       wrapper.classList.remove(this.CSS.loading);
       imageHolder.appendChild(image);
       wrapper.appendChild(imageHolder);
-      wrapper.appendChild(caption);
       loader.remove();
       this._acceptTuneView();
     };
@@ -139,7 +128,6 @@ class SimpleImage {
     this.nodes.imageHolder = imageHolder;
     this.nodes.wrapper = wrapper;
     this.nodes.image = image;
-    this.nodes.caption = caption;
 
     return wrapper;
   }
@@ -151,8 +139,7 @@ class SimpleImage {
    * @return {SimpleImageData}
    */
   save(blockContent) {
-    let image = blockContent.querySelector('img'),
-      caption = blockContent.querySelector('.' + this.CSS.input);
+    let image = blockContent.querySelector('img');
 
     if (!image) {
       return this.data;
@@ -160,7 +147,6 @@ class SimpleImage {
 
     return Object.assign(this.data, {
       url: image.src,
-      caption: caption.innerHTML
     });
   }
 
@@ -173,9 +159,6 @@ class SimpleImage {
       withBorder: {},
       withBackground: {},
       stretched: {},
-      caption: {
-        br: true,
-      },
     };
   }
 
@@ -195,7 +178,6 @@ class SimpleImage {
       reader.onload = (event) => {
         resolve({
           url: event.target.result,
-          caption: file.name
         });
       };
     });
@@ -254,10 +236,6 @@ class SimpleImage {
 
     if (this.nodes.image) {
       this.nodes.image.src = this.data.url;
-    }
-
-    if (this.nodes.caption) {
-      this.nodes.caption.innerHTML = this.data.caption;
     }
   }
 
