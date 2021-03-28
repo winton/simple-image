@@ -64,6 +64,7 @@ class SimpleImage {
 
     return this.config.view({
       pluginId: this.id,
+      pluginApi: this.api,
       pluginData: this.data,
       pluginUserConfig: this.config,
       pluginImage: image,
