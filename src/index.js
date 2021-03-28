@@ -34,6 +34,15 @@ class SimpleImage {
      * @type {number}
      */
     this.blockIndex = this.api.blocks.getCurrentBlockIndex() + 1;
+
+    if (this.config.initialize) {
+      this.config.initialize({
+        pluginId: this.id,
+        pluginApi: this.api,
+        pluginData: this.data,
+        pluginUserConfig: this.config
+      });
+    }
   }
 
   /**
