@@ -113,6 +113,8 @@ class SimpleImage {
     }
 
     image.onload = () => {
+      this._data.naturalWidth = image.naturalWidth;
+      this._data.naturalHeight = image.naturalHeight;
       wrapper.classList.remove(this.CSS.loading);
       imageHolder.appendChild(image);
       wrapper.appendChild(imageHolder);
