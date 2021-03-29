@@ -39,6 +39,7 @@ class SimpleImage {
       this.config.initialize({
         pluginId: this.id,
         pluginApi: this.api,
+        pluginBlockIndex: this.blockIndex,
         pluginData: this.data,
         pluginUserConfig: this.config
       });
@@ -74,6 +75,7 @@ class SimpleImage {
     return this.config.view({
       pluginId: this.id,
       pluginApi: this.api,
+      pluginBlockIndex: this.blockIndex,
       pluginData: this._data,
       pluginUserConfig: this.config,
       pluginImage: image,
