@@ -57,30 +57,34 @@ class SimpleImage {
     let image;
     let imagePromise;
 
-    if (this.data.url) {
-      image = document.createElement('img');
-      image.src = this.data.url;
+    try {
+      if (this.data.url) {
+        image = document.createElement('img');
+        image.src = this.data.url;
 
-      imagePromise = new Promise((resolve, reject) => {
-        image.onload = () => {
-          this._data.naturalWidth = image.naturalWidth;
-          this._data.naturalHeight = image.naturalHeight;
-          resolve(image);
-        };
-    
-        image.onerror = reject;
-      })
+        imagePromise = new Promise((resolve, reject) => {
+          image.onload = () => {
+            this._data.naturalWidth = image.naturalWidth;
+            this._data.naturalHeight = image.naturalHeight;
+            resolve(image);
+          };
+      
+          image.onerror = reject;
+        })
+      }
+
+      return this.config.view({
+        pluginId: this.id,
+        pluginApi: this.api,
+        pluginBlockIndex: this.blockIndex,
+        pluginData: this._data,
+        pluginUserConfig: this.config,
+        pluginImage: image,
+        pluginImagePromise: imagePromise,
+      });
+    } catch (e) {
+      console.error(e);
     }
-
-    return this.config.view({
-      pluginId: this.id,
-      pluginApi: this.api,
-      pluginBlockIndex: this.blockIndex,
-      pluginData: this._data,
-      pluginUserConfig: this.config,
-      pluginImage: image,
-      pluginImagePromise: imagePromise,
-    });
   }
 
   /**
