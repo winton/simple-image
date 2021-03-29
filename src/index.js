@@ -91,6 +91,8 @@ class SimpleImage {
 
       return { image, imagePromise }
     }
+
+    return {}
   }
 
   /**
