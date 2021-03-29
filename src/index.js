@@ -58,20 +58,7 @@ class SimpleImage {
     let imagePromise;
 
     try {
-      if (this.data.url) {
-        image = document.createElement('img');
-        image.src = this.data.url;
-
-        imagePromise = new Promise((resolve, reject) => {
-          image.onload = () => {
-            this.data.naturalWidth = image.naturalWidth;
-            this.data.naturalHeight = image.naturalHeight;
-            resolve(image);
-          };
-      
-          image.onerror = reject;
-        })
-      }
+      const { image, imagePromise } = makeImage()
 
       return this.config.view({
         pluginId: this.id,
@@ -84,6 +71,25 @@ class SimpleImage {
       });
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  makeImage() {
+    if (this.data.url) {
+      image = document.createElement('img');
+      image.src = this.data.url;
+
+      imagePromise = new Promise((resolve, reject) => {
+        image.onload = () => {
+          this.data.naturalWidth = image.naturalWidth;
+          this.data.naturalHeight = image.naturalHeight;
+          resolve(image);
+        };
+    
+        image.onerror = reject;
+      })
+
+      return { image, imagePromise }
     }
   }
 
@@ -143,12 +149,16 @@ class SimpleImage {
   onPaste(event) {
     const onpaste = () => {
       if (this.config.onpaste) {
+        const { image, imagePromise } = makeImage()
+
         this.config.onpaste({
           pluginId: this.id,
           pluginApi: this.api,
           pluginBlockIndex: this.blockIndex,
           pluginData: this.data,
-          pluginUserConfig: this.config
+          pluginUserConfig: this.config,
+          pluginImage: image,
+          pluginImagePromise: imagePromise,
         });
       }
     }
