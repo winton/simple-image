@@ -64,8 +64,8 @@ class SimpleImage {
 
         imagePromise = new Promise((resolve, reject) => {
           image.onload = () => {
-            this._data.naturalWidth = image.naturalWidth;
-            this._data.naturalHeight = image.naturalHeight;
+            this.data.naturalWidth = image.naturalWidth;
+            this.data.naturalHeight = image.naturalHeight;
             resolve(image);
           };
       
@@ -77,7 +77,7 @@ class SimpleImage {
         pluginId: this.id,
         pluginApi: this.api,
         pluginBlockIndex: this.blockIndex,
-        pluginData: this._data,
+        pluginData: this.data,
         pluginUserConfig: this.config,
         pluginImage: image,
         pluginImagePromise: imagePromise,
@@ -147,7 +147,7 @@ class SimpleImage {
           pluginId: this.id,
           pluginApi: this.api,
           pluginBlockIndex: this.blockIndex,
-          pluginData: this._data,
+          pluginData: this.data,
           pluginUserConfig: this.config
         });
       }
@@ -184,27 +184,6 @@ class SimpleImage {
           });
 
         break;
-    }
-  }
-
-  /**
-   * Returns image data
-   * @return {SimpleImageData}
-   */
-  get data() {
-    return this._data;
-  }
-
-  /**
-   * Set image data and update the view
-   *
-   * @param {SimpleImageData} data
-   */
-  set data(data) {
-    this._data = Object.assign({}, this.data, data);
-
-    if (this.data.url) {
-      this.render()
     }
   }
 
