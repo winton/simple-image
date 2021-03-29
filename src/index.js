@@ -99,15 +99,7 @@ class SimpleImage {
    * @return {SimpleImageData}
    */
   save(blockContent) {
-    let image = blockContent.querySelector('img');
-
-    if (!image) {
-      return this.data;
-    }
-
-    return Object.assign(this.data, {
-      url: image.src,
-    });
+    return this.data;
   }
 
   /**
