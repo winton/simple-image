@@ -141,6 +141,18 @@ class SimpleImage {
    * @param {PasteEvent} event - event with pasted config
    */
   onPaste(event) {
+    const onpaste = () => {
+      if (this.config.onpaste) {
+        this.config.onpaste({
+          pluginId: this.id,
+          pluginApi: this.api,
+          pluginBlockIndex: this.blockIndex,
+          pluginData: this._data,
+          pluginUserConfig: this.config
+        });
+      }
+    }
+
     switch (event.type) {
       case 'tag':
         const img = event.detail.data;
@@ -148,6 +160,8 @@ class SimpleImage {
         this.data = {
           url: img.src,
         };
+
+        onpaste();
         break;
 
       case 'pattern':
@@ -156,6 +170,8 @@ class SimpleImage {
         this.data = {
           url: text,
         };
+
+        onpaste();
         break;
 
       case 'file':
@@ -164,6 +180,7 @@ class SimpleImage {
         this.onDropHandler(file)
           .then(data => {
             this.data = data;
+            onpaste();
           });
 
         break;
