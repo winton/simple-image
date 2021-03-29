@@ -54,9 +54,6 @@ class SimpleImage {
    * @public
    */
   render() {
-    let image;
-    let imagePromise;
-
     try {
       const { image, imagePromise } = this.makeImage()
 
@@ -76,10 +73,10 @@ class SimpleImage {
 
   makeImage() {
     if (this.data.url) {
-      image = document.createElement('img');
+      const image = document.createElement('img');
       image.src = this.data.url;
 
-      imagePromise = new Promise((resolve, reject) => {
+      const imagePromise = new Promise((resolve, reject) => {
         image.onload = () => {
           this.data.naturalWidth = image.naturalWidth;
           this.data.naturalHeight = image.naturalHeight;
