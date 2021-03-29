@@ -58,7 +58,7 @@ class SimpleImage {
     let imagePromise;
 
     try {
-      const { image, imagePromise } = makeImage()
+      const { image, imagePromise } = this.makeImage()
 
       return this.config.view({
         pluginId: this.id,
@@ -149,7 +149,7 @@ class SimpleImage {
   onPaste(event) {
     const onpaste = () => {
       if (this.config.onpaste) {
-        const { image, imagePromise } = makeImage()
+        const { image, imagePromise } = this.makeImage()
 
         this.config.onpaste({
           pluginId: this.id,
